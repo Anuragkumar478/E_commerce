@@ -2,13 +2,17 @@ const express=require('express');
 const dotenv=require('dotenv')
 const db=require('./config/db');
 const userRoutes=require('./Router/userRoute')
+const productRoutes = require('./Router/ProductRoutes');
 dotenv.config();
 const app=express();
 app.use(express.json());
 
 
 
-app.use("/api/user", userRoutes);
+
+
+app.use('/api/user', userRoutes);
+app.use('/products', productRoutes);
 
 
 app.get('/',(req,res)=>{
