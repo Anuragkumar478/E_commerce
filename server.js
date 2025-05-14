@@ -13,6 +13,8 @@ app.use(express.json());
 
 app.use('/api/user', userRoutes);
 app.use('/products', productRoutes);
+app.use("/api/cart", require("./Router/cartRoutes"));
+
 
 
 app.get('/',(req,res)=>{
