@@ -5,7 +5,7 @@ const Product=require('../Model/Product');
 const {protect} =require('../MiddleWare/authMiddlware');
 
 router.post('/add',protect,async (req,res)=>{
-    const userId=req.user.id;
+    const userId=req.user._id;
     const {productId,quantity}=req.body;
     try{
         let cart =await Cart.findOne({user:userId});

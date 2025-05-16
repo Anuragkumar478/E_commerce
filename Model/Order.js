@@ -8,7 +8,7 @@ required:true
     },
     items:[
         {
-            products:{
+            product:{
                 type:mongoose.Schema.Types.ObjectId,
                 ref:"Product"
             
@@ -36,7 +36,7 @@ required:true
     status:{
         type:String,
         enum:["pending" ,"cancelled","shipped","delivered" ,"processing",],
-        default:"pennding"
+        default:"pending"
     },
     paymentStatus:{
         type:String,
@@ -48,4 +48,4 @@ required:true
         default:Date.now
     }
 })
-module.exports=mongoose.model('orderModel',OrderSchema)
+module.exports=mongoose.model('Order',OrderSchema)

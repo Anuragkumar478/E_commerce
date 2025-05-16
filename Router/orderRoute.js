@@ -4,6 +4,6 @@ const {placeOrder, getUserOrder}=require('../controller/orderController')
 const {protect}=require('../MiddleWare/authMiddlware');
 
 router.post('/place' ,protect, placeOrder);
-router.get('/myorder',protect,getUserOrder);
+router.get('/myorder',protect, getUserOrder);
 
 module.exports=router;
