@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../../blog_web"
+		},
+		{
+			"path": "../../../p1"
+		},
+		{
+			"path": "../../../Summry_boy"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "session"
+	}
+}
