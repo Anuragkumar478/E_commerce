@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 
 export default function Profile() {
@@ -56,10 +56,29 @@ export default function Profile() {
           <p>
             <span className="font-semibold">Email:</span> {user.email}
           </p>
-          <p>
+         <div>
+           <p>
             <span className="font-semibold">Admin:</span>{" "}
-            {user.isAdmin ? "Yes" : "No"}
+            {user.isAdmin ? " Yes "  : "No"}
+            {user.isAdmin && (
+              <Link to="/products/create">
+                <button className="bg-blue-600 px-3 py-2 rounded hover:bg-blue-400 ">
+                  Add Product
+                </button>
+              </Link>
+              
+            )}
+
+            {user.isAdmin && (
+              <Link to="/products">
+              <button className="bg-amber-950 text-white ml-2 px-3 py-2 rounded hover:bg-amber-800" >
+                See Product
+              </button>
+              </Link>
+            )}
+          
           </p>
+         </div>
           <p>
             <span className="font-semibold">Address:</span>{" "}
             {user.address || "Not set"}

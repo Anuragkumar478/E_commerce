@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCart } from "../utils/api";
+import avtar from '../assets/image.png'
 
 const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -42,18 +43,16 @@ const Navbar = () => {
           <li>
             <Link to="/login" className="hover:text-gray-300">Login</Link>
           </li>
+      
           <li>
-            <Link to="/profile" className="hover:text-gray-300">Profile</Link>
+            <Link to="/update-profile" className="hover:text-gray-300"></Link>
           </li>
-          <li>
-            <Link to="/update-profile" className="hover:text-gray-300">Update Profile</Link>
-          </li>
-          <li>
+          {/* <li>
             <Link to="/products" className="hover:text-gray-300">Products</Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link to="/products/create" className="hover:text-gray-300">Add Product</Link>
-          </li>
+          </li> */}
 
           {/* Cart */}
           <li>
@@ -62,6 +61,16 @@ const Navbar = () => {
               className="font-semibold bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100"
             >
               🛒 Cart ({cartCount})
+            </Link>
+          </li>
+           <li>
+            <Link to="/profile" className="hover:text-gray-300"> 
+              <img
+              src={avtar}
+              alt="Profile"
+       className="h-6 w-6 rounded-full object-cover"
+
+              />
             </Link>
           </li>
         </ul>
