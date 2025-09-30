@@ -37,7 +37,7 @@ const Home = () => {
       {/* Hero Section */}
       <div
         className="w-full min-h-[50vh] flex flex-col items-center justify-center text-center bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${pageImage})` }}
+        
       >
         <h2 className="text-4xl font-bold mb-4 text-brown-900">
           Welcome to My Bookstore

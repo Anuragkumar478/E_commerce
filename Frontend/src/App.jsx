@@ -15,6 +15,7 @@ import PlaceOrder from "./Components/PlaceOrder";
 import UserOrders from "./Components/UserOrders";
 import Cart from "./pages/Cart";
 import Footer from "./Components/Footer";
+import Categories from "./Components/Categories";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -31,6 +32,7 @@ function App() {
   return (
     <Router>
       <Navbar user={user} onLogout={handleLogout} />
+      <Categories/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
