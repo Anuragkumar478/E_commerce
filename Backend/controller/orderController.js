@@ -20,8 +20,9 @@ exports.placeOrder=async (req,res)=>{
             quantity:item.quantity
         })),
         totalAmount,
-        shippingAddress
-
+        shippingAddress,
+status:"pending",
+paymentStatus:"Pending"
        })
        await newOrder.save();
        cart.items=[];

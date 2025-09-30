@@ -40,8 +40,8 @@ required:true
     },
     paymentStatus:{
         type:String,
-        enum:["paid","unpaid"],
-        default:"unpaid"
+        enum:["Paid","Pending","Failed","Refunded"],
+        default:"Pending"
     },
     createdAt:{
         type:Date,

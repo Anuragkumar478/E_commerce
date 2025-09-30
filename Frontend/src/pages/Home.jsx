@@ -35,7 +35,7 @@ const Home = () => {
   return (
     <>
       {/* Hero Section */}
-      <div
+      {/* <div
         className="w-full min-h-[50vh] flex flex-col items-center justify-center text-center bg-cover bg-center bg-no-repeat"
         
       >
@@ -45,7 +45,7 @@ const Home = () => {
         <p className="text-lg mb-6 text-gray-800">
           Find your favorite books and explore new stories every day.
         </p>
-      </div>
+      </div> */}
 
       {/* Products */}
       <div className="p-8">

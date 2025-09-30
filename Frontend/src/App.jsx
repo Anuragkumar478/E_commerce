@@ -40,7 +40,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/products" element={<Products />} />
-<Route path="/products/create" element={<CreateProduct />} />        
+        <Route path="/products/create" element={<CreateProduct />} />        
         <Route path="/products/update/:id" element={<UpdateProduct />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
