@@ -18,6 +18,8 @@ import Footer from "./Components/Footer";
 import Categories from "./Components/Categories";
 
 function App() {
+  // usestate and useEffect of the code
+  
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
