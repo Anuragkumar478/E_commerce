@@ -13,6 +13,7 @@ const { protect } = require('../MiddleWare/authMiddlware');
 const { adminOnly } = require('../MiddleWare/adminMiddleware');
 const upload=require('../MiddleWare/uploadMiddleware')
 
+router.get('/category', getCategories);
 router.get('/', getProducts);
 router.get('/:id', getProductById);
 router.post('/', protect, adminOnly,upload.single("image"), createProduct);

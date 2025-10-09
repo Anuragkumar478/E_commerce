@@ -9,6 +9,7 @@ router.post('/add',protect,async (req,res)=>{
     const {productId,quantity}=req.body;
     try{
         let cart =await Cart.findOne({user:userId});
+        console.log(cart);
         if(!cart){
             cart=new Cart({user:userId,items:[]});
         }

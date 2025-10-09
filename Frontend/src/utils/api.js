@@ -57,6 +57,11 @@ export const getProducts = async () => {
   return res.data;
 };
 
+export const getCategories=async() =>{
+  const res=await api.get("/products/category");
+  return res.data;
+}
+
 // Cart APIs
 export const addToCart = async (productId, quantity = 1) => {
   const res = await api.post("/cart/add", { productId, quantity });

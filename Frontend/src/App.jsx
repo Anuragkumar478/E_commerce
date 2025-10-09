@@ -15,8 +15,8 @@ import PlaceOrder from "./Components/PlaceOrder";
 import UserOrders from "./Components/UserOrders";
 import Cart from "./pages/Cart";
 import Footer from "./Components/Footer";
-import Categories from "./Components/Categories";
-
+// import Categories from "./Components/Categories";
+// import TestAPI from "./Testapi";
 function App() {
   // usestate and useEffect of the code
   
@@ -34,7 +34,8 @@ function App() {
   return (
     <Router>
       <Navbar user={user} onLogout={handleLogout} />
-      <Categories/>
+      {/* <Categories/> */}
+      {/* <TestAPI/> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
