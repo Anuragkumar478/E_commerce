@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../utils/api"; // ⬅️ use the login function
+import { login } from "../utils/api";
+import { useUser } from "../Components/UserContext";
 
-export default function Login({ setUser }) {
+export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const { setUser } = useUser();   // ✔ Correct way
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,19 +21,18 @@ export default function Login({ setUser }) {
     setError("");
 
     try {
-      const data = await login(form); // call API helper
+      const data = await login(form);
 
-      // Save user info in localStorage
       const userInfo = {
         _id: data._id,
         name: data.name,
         email: data.email,
         isAdmin: data.isAdmin,
       };
+
       localStorage.setItem("user", JSON.stringify(userInfo));
 
-      // Update app state
-      setUser(userInfo);
+      setUser(userInfo);  // ✔ Now works perfectly
 
       navigate("/profile");
     } catch (err) {
@@ -92,5 +94,7 @@ export default function Login({ setUser }) {
         </p>
       </form>
     </div>
+  
   );
 }
+

@@ -9,7 +9,7 @@ router.post('/add',protect,async (req,res)=>{
     const {productId,quantity}=req.body;
     try{
         let cart =await Cart.findOne({user:userId});
-        console.log(cart);
+     
         if(!cart){
             cart=new Cart({user:userId,items:[]});
         }
@@ -32,7 +32,8 @@ router.post('/add',protect,async (req,res)=>{
 router.get("/", protect , async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user.id }).populate("items.product");
-
+    //console.log(cart);
+   
     if (!cart) return res.status(200).json({ items: [] });
 
     res.status(200).json(cart);
@@ -46,7 +47,7 @@ router.put("/update", protect , async (req, res) => {
   const { productId, quantity } = req.body;
 
   try {
-    const cart = await Cart.findOne({ user: req.user.id });
+    const cart = await Cart.findOne({ user: req.user._id || req.user.id });
 
     if (!cart) return res.status(404).json({ error: "Cart not found" });
 
@@ -61,7 +62,11 @@ router.put("/update", protect , async (req, res) => {
     }
 
     await cart.save();
-    res.status(200).json(cart);
+
+     const updatedCart = await Cart.findById(cart._id)
+      .populate("items.product");
+
+    res.status(200).json(updatedCart);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

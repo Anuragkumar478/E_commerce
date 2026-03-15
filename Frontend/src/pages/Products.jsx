@@ -50,14 +50,14 @@ export default function Products() {
           <div key={product._id} className="border p-4 rounded shadow">
             {product.image && (
               <img
-                src={`http://localhost:3000${product.image}`}
+                src={product.image}
                 alt={product.name}
                 className="mb-2 h-40 w-full object-cover rounded"
               />
             )}
             <h2 className="text-lg font-bold">{product.name}</h2>
             <p>{product.description}</p>
-            <p className="font-semibold mt-1">${product.price}</p>
+            <p className="font-semibold mt-1">₹{product.price}</p>
             <div className="flex gap-2 mt-3">
               <button
                 onClick={() => navigate(`/products/update/${product._id}`)}

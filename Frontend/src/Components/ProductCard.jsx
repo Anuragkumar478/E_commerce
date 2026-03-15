@@ -1,14 +1,15 @@
 // src/components/ProductCard.jsx
 import React from "react";
+import PaymentButton from "../payment/paymentButton"; 
 
 const ProductCard = ({ product, onAddToCart }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-100 group">
+    <div className="bg-amber-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-100 group">
       {/* Image Container */}
       <div className="relative overflow-hidden bg-gray-50">
         {product.image && (
           <img
-            src={`http://localhost:3000${product.image}`}
+            src={product.image}
             alt={product.name}
             className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
           />
@@ -32,7 +33,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         </h3>
         
         <div className="flex items-center justify-between mb-4">
-          <span className="text-2xl font-bold text-blue-600">₹{product.price}</span>
+          <span className="text-2xl font-bold text-pink-600">₹{product.price}</span>
           {product.originalPrice && (
             <span className="text-sm text-gray-500 line-through">₹{product.originalPrice}</span>
           )}
@@ -51,13 +52,15 @@ const ProductCard = ({ product, onAddToCart }) => {
 
         <button
           onClick={() => onAddToCart(product)}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 px-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5 shadow-md hover:shadow-lg active:scale-95 flex items-center justify-center gap-2"
+          className="w-full  bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 py-1 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-0.5 shadow-md hover:shadow-lg active:scale-95 flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
           Add to Cart
         </button>
+        {/* Payment Button */}
+        {/* <PaymentButton  amount={product.price}/> */}
       </div>
     </div>
   );

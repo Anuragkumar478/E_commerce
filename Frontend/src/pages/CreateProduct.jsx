@@ -19,9 +19,7 @@ export default function CreateProduct() {
       Object.keys(form).forEach((key) => formData.append(key, form[key]));
       if (file) formData.append("image", file);
 
-      await api.post("/products/", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await api.post("/upload/add-product", formData);
       navigate("/products");
     } catch (err) {
       alert("Failed to create product");

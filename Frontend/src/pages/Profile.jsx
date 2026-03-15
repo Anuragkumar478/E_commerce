@@ -52,33 +52,49 @@ export default function Profile() {
         <h1 className="text-2xl font-bold text-center mb-4">
           Welcome, {user.name}
         </h1>
+
         <div className="space-y-3 text-gray-700">
           <p>
             <span className="font-semibold">Email:</span> {user.email}
           </p>
-         <div>
-           <p>
-            <span className="font-semibold">Admin:</span>{" "}
-            {user.isAdmin ? " Yes "  : "No"}
-            {user.isAdmin && (
-              <Link to="/products/create">
-                <button className="bg-blue-600 px-3 py-2 rounded hover:bg-blue-400 ">
-                  Add Product
-                </button>
-              </Link>
-              
-            )}
 
-            {user.isAdmin && (
-              <Link to="/products">
-              <button className="bg-amber-950 text-white ml-2 px-3 py-2 rounded hover:bg-amber-800" >
-                See Product
-              </button>
-              </Link>
-            )}
-          
+          <p>
+            <span className="font-semibold">Admin:</span>{" "}
+            {user.isAdmin ? "Yes" : "No"}
           </p>
-         </div>
+
+          {user.isAdmin && (
+            <div className="mt-4 space-y-2">
+              <h3 className="font-semibold text-lg">🛠 Admin Panel</h3>
+
+              <div className="flex flex-wrap gap-2">
+                <Link to="/products/create">
+                  <button className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-400">
+                    Add Product
+                  </button>
+                </Link>
+
+                <Link to="/products">
+                  <button className="bg-amber-950 text-white px-3 py-2 rounded hover:bg-amber-800">
+                    See Products
+                  </button>
+                </Link>
+
+                <Link to="/admin/orders">
+                  <button className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700">
+                    View Orders
+                  </button>
+                </Link>
+
+                <Link to="/admin/dashboard">
+                  <button className="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700">
+                    Admin Dashboard
+                  </button>
+                </Link>
+              </div>
+            </div>
+          )}
+
           <p>
             <span className="font-semibold">Address:</span>{" "}
             {user.address || "Not set"}

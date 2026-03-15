@@ -1,7 +1,7 @@
 // src/pages/Cart.jsx
 import React, { useEffect, useState } from "react";
 import { getCart, updateCart, placeOrder } from "../utils/api";
-
+import PaymentButton from "../payment/paymentButton";
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [shippingAddress, setShippingAddress] = useState("");
@@ -36,7 +36,8 @@ const Cart = () => {
 
   // Calculate total price
   const total = cart.reduce(
-    (acc, item) => acc + item.product?.price * item.quantity,
+    (acc, item) => 
+      acc + (item.product?.price||0) * (item.quantity||0),
     0
   );
 
@@ -94,12 +95,12 @@ const Cart = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() =>
-                      handleUpdate(item.product._id, item.quantity - 1)
+                      handleUpdate(item.product._id|| item.product.id, item.quantity - 1)
                     }
                     disabled={item.quantity <= 1}
                     className="px-2 py-1 bg-gray-300 rounded"
                   >
-                    -
+                     -
                   </button>
                   <span>{item.quantity}</span>
                   <button
@@ -111,7 +112,7 @@ const Cart = () => {
                     +
                   </button>
                   <span className="ml-4 font-semibold">
-                    ₹{item.product?.price * item.quantity}
+                    ₹{(item.product?.price||0) * item.quantity}
                   </span>
                 </div>
               </li>
@@ -119,7 +120,9 @@ const Cart = () => {
           </ul>
 
           {/* Total Price */}
+          
           <div className="mt-6 text-xl font-bold">Total: ₹{total}</div>
+          <PaymentButton className="mt-6 text-xl font-bold" amount={total} />
 
           {/* Shipping Address */}
           <div className="mt-4">

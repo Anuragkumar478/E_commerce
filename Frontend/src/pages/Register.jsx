@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
+import { useUser } from "../Components/UserContext";
 
 const Register = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const { setUser } = useUser();
+  const [form, setForm] = useState({ name: "", phone:"", email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -19,7 +21,20 @@ const Register = () => {
 
     try {
       const { data } = await api.post("/users/register", form);
+
+      const userInfo = {
+        _id: data._id,
+        name: data.name,
+        phone:data.phone,
+        email: data.email,
+        isAdmin: data.isAdmin,
+      };
+
+      localStorage.setItem("user", JSON.stringify(userInfo));
       localStorage.setItem("token", data.token);
+
+      setUser(userInfo); // Update context
+
       navigate("/profile");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
@@ -47,6 +62,14 @@ const Register = () => {
           name="name"
           placeholder="Name"
           value={form.name}
+          onChange={handleChange}
+          required
+        />
+         <input
+          className="border p-3 mb-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          name="phone"
+          placeholder="Phone"
+          value={form.phone}
           onChange={handleChange}
           required
         />

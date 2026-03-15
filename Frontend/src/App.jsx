@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./pages/Home";
@@ -15,44 +14,36 @@ import PlaceOrder from "./Components/PlaceOrder";
 import UserOrders from "./Components/UserOrders";
 import Cart from "./pages/Cart";
 import Footer from "./Components/Footer";
-// import Categories from "./Components/Categories";
-// import TestAPI from "./Testapi";
+import { UserProvider } from "./Components/UserContext";
+
 function App() {
-  // usestate and useEffect of the code
-  
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
-  };
-
   return (
-    <Router>
-      <Navbar user={user} onLogout={handleLogout} />
-      {/* <Categories/> */}
-      {/* <TestAPI/> */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/create" element={<CreateProduct />} />        
-        <Route path="/products/update/:id" element={<UpdateProduct />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/profile" element={<Profile user={user} />} />
-        <Route path="/update-profile" element={<UpdateProfile user={user} setUser={setUser} />} />
-        <Route path="/place-order" element={<PlaceOrder />} />
-        <Route path="/my-orders" element={<UserOrders />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <UserProvider>
+      <Router>
+        <Navbar />
+        
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/create" element={<CreateProduct />} />        
+          <Route path="/products/update/:id" element={<UpdateProduct />} />
+
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/update-profile" element={<UpdateProfile />} />
+
+          <Route path="/place-order" element={<PlaceOrder />} />
+          <Route path="/my-orders" element={<UserOrders />} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+
+        <Footer />
+      </Router>
+    </UserProvider>
   );
 }
 

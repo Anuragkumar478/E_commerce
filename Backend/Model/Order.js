@@ -25,13 +25,7 @@ required:true
         required:true
     },
     shippingAddress:{
-        fullName:String,
-        address:String,
-       city:String,
-        state:String,
-      postalCode:String,
-      country:String,
-      phone:String
+        type:String,
     },
     status:{
         type:String,

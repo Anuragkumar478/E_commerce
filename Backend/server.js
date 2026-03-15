@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const http = require('http');
 
+dotenv.config();
 // Database connection
 require('./config/db');
 
@@ -13,7 +14,8 @@ const productRoutes = require('./Router/ProductRoutes');
 const adminRoutes = require('./Router/adminRoutes');
 const cartRoutes = require('./Router/cartRoutes');
 const orderRoutes = require('./Router/orderRoute');
-
+const paymentRoutes=require('./Router/payment');
+const uploadRoutes=require('./Router/upload_api');
 // Socket.io
 const { initSocket } = require('./socket');
 
@@ -31,7 +33,7 @@ app.use(express.json());
 app.use(cors());
 
 // Static files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
 app.use('/api/users', userRoutes);
@@ -39,6 +41,8 @@ app.use('/api/products', productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.get('/', (req, res) => {
     console.log('app is running on port 3000');

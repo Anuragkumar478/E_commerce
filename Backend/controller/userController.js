@@ -9,17 +9,18 @@ const generateToken = (user) => {
 
 // 📝 Register User
 exports.registUser = async (req, res) => {
-  const { name, email, password,isAdmin } = req.body;
+  const { name,phone, email, password,isAdmin } = req.body;
   try {
     const userExist = await User.findOne({ email });
     if (userExist) return res.status(400).json({ message: 'User already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword,isAdmin:isAdmin||false });
+    const user = await User.create({ name,phone, email, password: hashedPassword,isAdmin:isAdmin||false });
 
     res.status(201).json({
       _id: user._id,
       name: user.name,
+      phone:user.phone,
       email: user.email,
        isAdmin: user.isAdmin,
       token: generateToken(user),
@@ -79,6 +80,7 @@ exports.updateProfile = async (req, res) => {
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
+      phone:updatedUser.phone,
       address: updatedUser.address,
       token: generateToken(updatedUser),
     });
@@ -86,3 +88,4 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+

@@ -11,7 +11,7 @@ const { getCategories } = require('../controller/categrioes');
 
 const { protect } = require('../MiddleWare/authMiddlware');
 const { adminOnly } = require('../MiddleWare/adminMiddleware');
-const upload=require('../MiddleWare/uploadMiddleware')
+const upload=require('../MiddleWare/upload')
 
 router.get('/category', getCategories);
 router.get('/', getProducts);
