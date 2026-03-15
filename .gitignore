@@ -4,4 +4,6 @@ Frontend/vite-project/node_modules/
 uploads/
 *.log
 .env
+frontend/.env
+backend/.env
 # that is good but some wrong
