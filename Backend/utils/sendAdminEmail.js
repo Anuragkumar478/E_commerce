@@ -27,7 +27,7 @@ const sendAdminEmail = async (order) => {
       <p><b>Placed On:</b> ${new Date(order.createdAt).toLocaleString()}</p>
       <h3>Items:</h3>
       <ul>
-        ${order.items
+        ${(order.items||[])
           .map(
             (item) => `
             <li>

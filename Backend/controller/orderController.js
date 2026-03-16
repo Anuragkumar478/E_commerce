@@ -20,9 +20,11 @@ exports.placeOrder = async (req, res) => {
 
     // Calculate total amount
     const totalAmount = cart.items.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
+      (acc, item) =>{
+      if(!item.product)return acc;
+         return acc + item.product.price * item.quantity;
+      
+   },0 );
 
     // Create new order
     const newOrder = new Order({
@@ -36,7 +38,7 @@ exports.placeOrder = async (req, res) => {
       status: "pending",
       paymentStatus: "Pending",
     });
-
+ 
     await newOrder.save();
 //  console.log("New order created:", newOrder);  
     // Empty cart

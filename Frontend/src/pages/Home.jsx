@@ -50,7 +50,8 @@ const Home = () => {
       return;
     }
 
-    const filtered = products.filter((p) => p.category === cat);
+    const filtered = products.filter((p) =>
+       p.category === cat);
     setFilterProduct(filtered);
   };
 
@@ -67,9 +68,9 @@ const Home = () => {
       const q = query.toLowerCase();
       filtered = filtered.filter(
         (p) =>
-          p.name.toLowerCase().includes(q) ||
+          p.name?.toLowerCase().includes(q) ||
           p.author?.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q)
+          p.category?.toLowerCase().includes(q)
       );
     }
 

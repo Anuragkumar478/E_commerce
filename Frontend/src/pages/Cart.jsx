@@ -82,7 +82,7 @@ const Cart = () => {
                 {/* Product Image */}
                 {item.product?.image && (
                   <img
-                    src={`http://localhost:3000${item.product.image}`}
+                    src={item.product.image}
                     alt={item.product.name}
                     className="w-16 h-16 object-cover rounded mr-4"
                   />
@@ -95,7 +95,7 @@ const Cart = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() =>
-                      handleUpdate(item.product._id|| item.product.id, item.quantity - 1)
+                      handleUpdate(item.product?._id|| item.product?.id, item.quantity - 1)
                     }
                     disabled={item.quantity <= 1}
                     className="px-2 py-1 bg-gray-300 rounded"
@@ -105,7 +105,7 @@ const Cart = () => {
                   <span>{item.quantity}</span>
                   <button
                     onClick={() =>
-                      handleUpdate(item.product._id, item.quantity + 1)
+                      handleUpdate(item.product?._id, item.quantity + 1)
                     }
                     className="px-2 py-1 bg-gray-300 rounded"
                   >
@@ -120,12 +120,7 @@ const Cart = () => {
           </ul>
 
           {/* Total Price */}
-          
-          <div className="mt-6 text-xl font-bold">Total: ₹{total}</div>
-          <PaymentButton className="mt-6 text-xl font-bold" amount={total} />
-
-          {/* Shipping Address */}
-          <div className="mt-4">
+            <div className="mt-4">
             <input
               type="text"
               placeholder="Enter Shipping Address"
@@ -134,11 +129,17 @@ const Cart = () => {
               className="border p-2 rounded w-full max-w-md"
             />
           </div>
+          
+          <div className="mt-6 text-xl font-bold">Total: ₹{total}</div>
+          <PaymentButton className="mt-6  text-xl font-bold" amount={total} shippingAddress={shippingAddress} />
+
+          {/* Shipping Address */}
+        
 
           {/* Checkout Button */}
           <button
             onClick={handleCheckout}
-            className="mt-4 bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
+            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-green-700"
           >
             Proceed to Checkout
           </button>
