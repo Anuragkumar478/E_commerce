@@ -36,7 +36,7 @@ exports.placeOrder = async (req, res) => {
       totalAmount,
       shippingAddress,
       status: "pending",
-      paymentStatus: "Pending",
+      paymentStatus: "Cod",
     });
  
     await newOrder.save();

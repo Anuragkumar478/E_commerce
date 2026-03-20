@@ -2,12 +2,31 @@ import React from 'react';
 import axios from 'axios';
 
 const PaymentButton = ({amount, shippingAddress}) => {
+
+     const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+
+      document.body.appendChild(script);
+    });
+  };
+
+
     const handlePayment = async () => {
         try {
             // Create order via backend
             const response = await axios.post('http://localhost:3000/api/payment/create-order', {
                 amount: amount, // Amount in rupees
                 currency: 'INR',
+                
             });
 
             const { id: order_id, amount:orderAmount, currency } = response.data;

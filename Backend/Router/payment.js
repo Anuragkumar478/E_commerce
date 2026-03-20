@@ -61,7 +61,7 @@ router.post("/verify-payment", protect,  async (req, res) => {
       })),
       totalAmount,
       shippingAddress,
-      paymentStatus: "Success",
+      paymentStatus: "Online",
       status: "shipped"
     });
 

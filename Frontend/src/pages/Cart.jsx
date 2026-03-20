@@ -141,7 +141,7 @@ const Cart = () => {
             onClick={handleCheckout}
             className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-green-700"
           >
-            Proceed to Checkout
+            Cash On Delivery
           </button>
         </>
       )}

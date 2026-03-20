@@ -24,6 +24,7 @@ const sendAdminEmail = async (order) => {
       <p><b>Order ID:</b> ${order._id}</p>
       <p><b>Total:</b> ₹${order.totalAmount}</p>
       <p><b>Shipping Address:</b> ${order.shippingAddress}</p>
+      <p><b>Payment Status:</b> ${order.paymentStatus}</p>
       <p><b>Placed On:</b> ${new Date(order.createdAt).toLocaleString()}</p>
       <h3>Items:</h3>
       <ul>
