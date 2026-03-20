@@ -9,7 +9,7 @@ const PaymentButton = ({amount,shippingAddress}) => {
   }
         try {
             // Create order via backend
-            const response = await axios.post('http://localhost:3000/api/payment/create-order', {
+            const response = await axios.post(`${import.meta.env.BASE_URL}/api/payment/create-order`, {
                 amount: amount, // Amount in rupees
                 currency: 'INR',
             });
@@ -28,7 +28,7 @@ const PaymentButton = ({amount,shippingAddress}) => {
                 order_id: order_id,
               handler: async (response) => {
   try {
-    await axios.post("http://localhost:3000/api/payment/verify-payment", {
+    await axios.post(`${import.meta.env.BASE_URL}/api/payment/verify-payment`, {
       razorpay_order_id: response.razorpay_order_id,
       razorpay_payment_id: response.razorpay_payment_id,
       razorpay_signature: response.razorpay_signature,

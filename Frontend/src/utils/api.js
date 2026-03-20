@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Axios instance
 const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: import.meta.env.BASE_URL + "/api", // ✅ use env variable
 });
 
 // Attach token automatically
