@@ -23,7 +23,7 @@ const PaymentButton = ({amount, shippingAddress}) => {
     const handlePayment = async () => {
         try {
             // Create order via backend
-            const response = await axios.post(`${import.meta.env.BASE_URL}/api/payment/create-order`, {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/payment/create-order`, {
                 amount: amount, // Amount in rupees
                 currency: 'INR',
                 

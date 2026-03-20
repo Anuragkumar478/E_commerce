@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Axios instance
 const api = axios.create({
-  baseURL: import.meta.env.BASE_URL + "/api", // ✅ use env variable
+  baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
 });
 
 // Attach token automatically
