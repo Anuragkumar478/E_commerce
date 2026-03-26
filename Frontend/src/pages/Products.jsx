@@ -10,7 +10,7 @@ export default function Products() {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await api.get("/products"); // ✅ destructure data
+      const { data } = await api.get("/products/"); // ✅ destructure data
       setProducts(data);
     } catch (err) {
       setError("Failed to load products");
