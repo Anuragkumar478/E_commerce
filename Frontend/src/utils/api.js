@@ -3,8 +3,8 @@ import axios from "axios";
 
 // Axios instance
 const api = axios.create({
-  // baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
-  baseURL: "http://localhost:3000/api", // ✅ fallback to localhost
+   baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
+ // baseURL: "http://localhost:3000/api", // ✅ fallback to localhost
  
 });
 
