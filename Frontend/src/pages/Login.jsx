@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../utils/api";
-import { useUser } from "../Components/UserContext";
+
+
+import { AuthContext } from "../Contexfolder/authcontex";
+  // ✔ Correct way to access login function from AuthContext
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const { setUser } = useUser();   // ✔ Correct way
+const {login}=useContext(AuthContext);
+   // ✔ Correct way
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,27 +22,23 @@ export default function Login() {
     setLoading(true);
     setError("");
 
-    try {
-      const data = await login(form);
+     
 
-      const userInfo = {
-        _id: data._id,
-        name: data.name,
-        email: data.email,
-        isAdmin: data.isAdmin,
-      };
+     try {
+       const res = await login(form);
+       if (res.success) {
+        navigate("/profile");
+      } else {
+        setError(res.message || "Login failed");
+    } 
 
-      localStorage.setItem("user", JSON.stringify(userInfo));
-
-      setUser(userInfo);  // ✔ Now works perfectly
-
-      navigate("/profile");
-    } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password");
-    } finally {
+     } catch (err) {
+        setError( "Login failed. Please try again.");
+     }finally { 
       setLoading(false);
-    }
+     }
   };
+  
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">

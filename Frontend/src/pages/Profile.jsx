@@ -80,7 +80,7 @@ export default function Profile() {
                   </button>
                 </Link>
 
-                <Link to="/admin/orders">
+                {/* <Link to="/admin/orders">
                   <button className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700">
                     View Orders
                   </button>
@@ -90,7 +90,7 @@ export default function Profile() {
                   <button className="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700">
                     Admin Dashboard
                   </button>
-                </Link>
+                </Link> */}
               </div>
             </div>
           )}

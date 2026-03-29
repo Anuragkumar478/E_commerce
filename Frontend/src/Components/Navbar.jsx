@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getCart,logout,getProfile } from "../utils/api";
+import { getCart} from "../utils/api";
 import avatar from "../assets/image.png";
 import SearchBar from "./SearchBar";
+import { useUser } from "./UserContext";
+
 
 const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
-  const [user, setUser] = useState(null);
+  const {user,logout}=useUser();
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-  async function loadUser() {
-    try {
-      const userData = await getProfile(); // 🔥 get user from backend
-      setUser(userData);
-      fetchCart();
-    } catch (error) {
-      setUser(null);
-    }
-  }
+ 
 
   async function fetchCart() {
     try {
@@ -29,9 +23,14 @@ const Navbar = () => {
       setCartCount(0);
     }
   }
+  if(user){
+    fetchCart();
+  }else{
+    setCartCount(0);  
+  }
 
-  loadUser();
-}, []);
+  
+}, [user]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -42,7 +41,7 @@ const Navbar = () => {
   try {
     await logout(); // 🔥 calls backend → clears cookie
    // optional (since you used it)
-    setUser(null); // update UI
+    // update UI
     navigate("/login");
   } catch (error) {
     console.log(error);
