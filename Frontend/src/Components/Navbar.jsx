@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getCart } from "../utils/api";
+import { getCart,logout,getProfile } from "../utils/api";
 import avatar from "../assets/image.png";
 import SearchBar from "./SearchBar";
 
@@ -11,27 +11,43 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-
-  if (storedUser) {
-    setUser(JSON.parse(storedUser));
-    fetchCart();
+  async function loadUser() {
+    try {
+      const userData = await getProfile(); // 🔥 get user from backend
+      setUser(userData);
+      fetchCart();
+    } catch (error) {
+      setUser(null);
+    }
   }
 
   async function fetchCart() {
     try {
       const data = await getCart();
       setCartCount(data.items?.length || 0);
-    } catch (error) {
+    } catch {
       setCartCount(0);
     }
   }
+
+  loadUser();
 }, []);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     navigate(`/?search=${searchQuery}`);
   };
+
+  const handleLogout = async () => {
+  try {
+    await logout(); // 🔥 calls backend → clears cookie
+   // optional (since you used it)
+    setUser(null); // update UI
+    navigate("/login");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <nav className="backdrop-blur-lg bg-slate-900 shadow-lg fixed top-0 left-0 w-full z-50 text-white">
@@ -42,7 +58,7 @@ const Navbar = () => {
           to="/"
           className="text-2xl font-extrabold text-blue-700 hover:text-blue-900 transition"
         >
-          Anukur book shop 
+           Book shop 
         </Link>
          <Link
           to="/"
@@ -100,23 +116,32 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link
-                to="/cart"
-                className="px-4 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-700"
-              >
-                🛒 Cart 
-              </Link>
-              <Link to="/profile">
-                <img
-                  src={avatar}
-                  className="h-9 w-9 rounded-full border-2 border-blue-600"
-                  alt="Profile"
-                />
-              </Link>
-            </>
+  <Link
+    to="/cart"
+    className="px-4 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-700"
+  >
+    🛒 Cart
+  </Link>
+
+  <Link to="/profile">
+    <img
+      src={avatar}
+      className="h-9 w-9 rounded-full border-2 border-blue-600"
+      alt="Profile"
+    />
+  </Link>
+
+  {/* 🔥 Logout Button */}
+  <button
+    onClick={handleLogout}
+    className="px-4 py-1 rounded-full bg-red-600 hover:bg-red-700"
+  >
+    Logout
+  </button>
+</>
           )}
-        </div>
-        <div className="flex ">
+         </div>
+       {/* { <div className="flex ">
           <Link to="/register"
           className="flex m-2">
             Register
@@ -125,7 +150,7 @@ const Navbar = () => {
           className="flex m-2">
             Login
           </Link>
-        </div>
+        </div> */} 
       </div>
     </nav>
   );

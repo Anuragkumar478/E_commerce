@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const protect = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const token = req.cookies.token; // Get token from cookies
   //console.log("Token:", token);
   if (!token) return res.status(401).json({ message: 'unauthorized' });
 

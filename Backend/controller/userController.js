@@ -17,13 +17,21 @@ exports.registUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name,phone, email, password: hashedPassword,isAdmin:isAdmin||false });
 
+    const token = generateToken(user);
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure:false,
+      sameSite:"Lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+     
     res.status(201).json({
       _id: user._id,
       name: user.name,
       phone:user.phone,
       email: user.email,
-       isAdmin: user.isAdmin,
-      token: generateToken(user),
+       isAdmin: user.isAdmin
+     
     });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
@@ -36,17 +44,26 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
+   
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+   
+       const token = generateToken(user);
+       res.cookie('token', token, {
+      httpOnly: true,
+      secure:false,
+      sameSite:"Lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+       }); 
 
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
-        isAdmin: user.isAdmin,
-      token: generateToken(user),
+        isAdmin: user.isAdmin
+      
     });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
@@ -89,3 +106,11 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+exports.logoutUser = async (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: false,
+    sameSite: "Lax",
+  });
+  res.json({ message: "Logged out successfully" });
+}

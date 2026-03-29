@@ -3,25 +3,23 @@ import axios from "axios";
 
 // Axios instance
 const api = axios.create({
-   baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
- // baseURL: "http://localhost:3000/api", // ✅ fallback to localhost
+   //baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
+  baseURL: "http://localhost:3000/api",
+     withCredentials: true // ✅ fallback to localhost
  
 });
 
 // Attach token automatically
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+
 
 // Handle 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      if(window.location.pathname !== "/login"){
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   }
@@ -30,21 +28,19 @@ api.interceptors.response.use(
 // Signup
 export const signup = async (userData) => {
   const res = await api.post("/users/register", userData);
-  if (res.data.token) localStorage.setItem("token", res.data.token);
   return res.data;
 };
 
 // Login
 export const login = async (credentials) => {
   const res = await api.post("/users/login", credentials);
-  if (res.data.token) localStorage.setItem("token", res.data.token);
   return res.data;
 };
 
 // Logout
-export const logout = () => {
-  localStorage.removeItem("token");
-  window.location.href = "/login";
+export const logout = async () => {
+  const res = await api.post("/users/logout");
+  return res.data;
 };
 
 // Profile

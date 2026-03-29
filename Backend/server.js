@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 const http = require('http');
+const cookiesParser = require('cookie-parser');
 
 dotenv.config();
 // Database connection
@@ -19,9 +20,10 @@ const uploadRoutes=require('./Router/upload_api');
 // Socket.io
 const { initSocket } = require('./socket');
 
-dotenv.config();
+
 
 const app = express();
+
 const server = http.createServer(app); // Create HTTP server first
 
 // Initialize Socket.io
@@ -29,6 +31,7 @@ const io = initSocket(server);
 app.set('io', io);
 
 // Middleware
+// app.use(cors());
 app.use(cors({
   origin:[ "http://localhost:5173",
    "https://e-commerce-h9ke.vercel.app"
@@ -37,7 +40,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(cors());
+app.use(cookiesParser()); // Use cookie-parser middleware 
+
 
 // Static files
 // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
