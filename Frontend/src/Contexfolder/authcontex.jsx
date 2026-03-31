@@ -1,5 +1,5 @@
 import { useState,useEffect,createContext } from "react";
-import Api from "../utils/api";
+import api from "../utils/api";
 
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -9,10 +9,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const { data } = await Api.get("/users/profile");
+        const { data } = await api.get("/users/profile");
+        // console.log("Fetched user:", data);
         setUser(data);
       } catch (err) {
-        setUser(null);
+        if(err.response?.status !== 401){
+        setUser(null); 
+      }
       } finally {
         setLoading(false);
       }
@@ -23,8 +26,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async(formData)=>{
      try{
-        const res=await Api.post("/users/login",formData);
-        setUser(res.data.user);
+        const res=await api.post("/users/login",formData);
+        setUser(res.data);
         return { success: true };
      }catch(err){
         return { success: false, message: err.response?.data?.message || "Login failed" };
@@ -32,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
   const logout = async()=>{
      try{
-        await Api.post("/users/logout");
+        await api.post("/users/logout");
         setUser(null);
      } catch (err) {
         console.error("Error occurred while logging out:", err);

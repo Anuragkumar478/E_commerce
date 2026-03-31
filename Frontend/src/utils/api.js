@@ -3,8 +3,8 @@ import axios from "axios";
 
 // Axios instance
 const api = axios.create({
-   //baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
-  baseURL: "http://localhost:3000/api",
+   baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
+  //baseURL: "http://localhost:3000/api",
      withCredentials: true // ✅ fallback to localhost
  
 });
@@ -16,11 +16,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      if(window.location.pathname !== "/login"){
-        window.location.href = "/login";
-      }
-    }
+   
     return Promise.reject(error);
   }
 );

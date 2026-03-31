@@ -9,7 +9,7 @@ const protect = (req, res, next) => {
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     // Use isAdmin from token (because you include it in generateToken)
     req.user = { id: decode.id, isAdmin: decode.isAdmin };
-    console.log("Decoded user:", req.user);
+    // console.log("Decoded user:", req.user);
     next();
   } catch (err) {
     res.status(401).json({ message: 'unauthorized' });
