@@ -20,7 +20,7 @@ exports.registUser = async (req, res) => {
     const token = generateToken(user);
     res.cookie('token', token, {
       httpOnly: true,
-      secure:false,
+      secure:true,
       sameSite:"Lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
@@ -109,7 +109,7 @@ exports.updateProfile = async (req, res) => {
 exports.logoutUser = async (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "Lax",
   });
   res.json({ message: "Logged out successfully" });
