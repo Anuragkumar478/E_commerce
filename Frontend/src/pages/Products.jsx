@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
+import {getProducts} from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Products() {
@@ -10,7 +11,7 @@ export default function Products() {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await api.get("/products/"); // ✅ destructure data
+      const data  = await getProducts(); // ✅ destructure data
       setProducts(data);
     } catch (err) {
       setError("Failed to load products");

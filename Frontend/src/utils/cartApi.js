@@ -12,4 +12,12 @@ export const getCart = async () => {
 export const updateCart = async (productId, quantity) => {
   const { data } = await api.put("/cart/update", { productId, quantity });
   return data;
+}; 
+
+export const placeOrder = async ({ shippingAddress }) => {
+  if (!shippingAddress) throw new Error("Shipping address is required");
+  const res = await api.post("/order/place", { shippingAddress });
+  return res.data;
 };
+
+//  getCart, updateCart, placeOrder

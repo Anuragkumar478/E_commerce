@@ -9,7 +9,7 @@ const Footer = () => {
 
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-bold mb-3">Ankur book shop</h2>
+          <h2 className="text-2xl font-bold mb-3"> book shop</h2>
           <p className="text-sm opacity-80">
             Your trusted e-commerce platform for quality and affordable products.
           </p>

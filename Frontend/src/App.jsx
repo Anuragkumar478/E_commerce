@@ -14,6 +14,7 @@ import PlaceOrder from "./Components/PlaceOrder";
 import UserOrders from "./Components/UserOrders";
 import Cart from "./pages/Cart";
 import Footer from "./Components/Footer";
+import SearchProduct from "./pages/searchProduct";
 import { UserProvider } from "./Components/UserContext";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/place-order" element={<PlaceOrder />} />
           <Route path="/my-orders" element={<UserOrders />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchProduct />} />
         </Routes>
 
         <Footer />

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { getProducts, addToCart, getCategories } from "../utils/api";
 import ProductCard from "../Components/ProductCard";
 
@@ -10,37 +9,27 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const navbarSearch = searchParams.get("search") || "";
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const data = await getProducts();
+
         setProducts(data);
         setFilterProduct(data);
 
         const cat = await getCategories();
         setCategories(cat);
-      } catch {
+      } catch (err) {
+        console.error(err);
         setError("Failed to load products");
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, []);
-
-  // APPLY SEARCH FROM NAVBAR
-  useEffect(() => {
-    if (navbarSearch) {
-      handleSearch(navbarSearch);
-      setSearchQuery(navbarSearch);
-    }
-  }, [navbarSearch]);
 
   const handleCategoryClick = (cat) => {
     setSelectedCategory(cat);
@@ -50,29 +39,9 @@ const Home = () => {
       return;
     }
 
-    const filtered = products.filter((p) =>
-       p.category === cat);
-    setFilterProduct(filtered);
-  };
-
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-
-    let filtered = products;
-
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter((p) => p.category === selectedCategory);
-    }
-
-    if (query.trim()) {
-      const q = query.toLowerCase();
-      filtered = filtered.filter(
-        (p) =>
-          p.name?.toLowerCase().includes(q) ||
-          p.author?.toLowerCase().includes(q) ||
-          p.category?.toLowerCase().includes(q)
-      );
-    }
+    const filtered = products.filter(
+      (p) => p.category === cat
+    );
 
     setFilterProduct(filtered);
   };
@@ -81,14 +50,13 @@ const Home = () => {
     try {
       await addToCart(product._id, 1);
       alert(`${product.name} added to cart`);
-    } catch {
+    } catch (err) {
       alert("Failed to add to cart");
     }
   };
 
   return (
-    <div className="pt-24 p-8 bg-gray-800 min-h-screen">
-
+    <div>
       {/* Category Buttons */}
       <div className="mb-6 flex flex-wrap gap-2">
         <button

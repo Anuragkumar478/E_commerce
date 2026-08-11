@@ -17,6 +17,7 @@ const cartRoutes = require('./Router/cartRoutes');
 const orderRoutes = require('./Router/orderRoute');
 const paymentRoutes=require('./Router/payment');
 const uploadRoutes=require('./Router/upload_api');
+const searchRoutes=require('./Router/searchRoutes');
 // Socket.io
 const { initSocket } = require('./socket');
 
@@ -54,6 +55,7 @@ app.use('/api/order', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/search', searchRoutes);
 
 app.get('/', (req, res) => {
     console.log('app is running on port 3000');

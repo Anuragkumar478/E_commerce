@@ -1,52 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getCart} from "../utils/api";
+import { getCart } from "../utils/cartApi";
 import avatar from "../assets/image.png";
-import SearchBar from "./SearchBar";
+import SearchProductBar from "./productSearch";
 import { useUser } from "./UserContext";
 
 
 const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
-  const {user,logout}=useUser();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { user, logout } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
- 
 
-  async function fetchCart() {
-    try {
-      const data = await getCart();
-      setCartCount(data.items?.length || 0);
-    } catch {
+
+    async function fetchCart() {
+      try {
+        const data = await getCart();
+        setCartCount(data.items?.length || 0);
+      } catch {
+        setCartCount(0);
+      }
+    }
+    if (user) {
+      fetchCart();
+    } else {
       setCartCount(0);
     }
-  }
-  if(user){
-    fetchCart();
-  }else{
-    setCartCount(0);  
-  }
+  }, [user]);
 
-  
-}, [user]);
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    navigate(`/?search=${searchQuery}`);
-  };
-
+ 
   const handleLogout = async () => {
-  try {
-    await logout(); // 🔥 calls backend → clears cookie
-   // optional (since you used it)
-    // update UI
-    navigate("/login");
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+      await logout(); // 🔥 calls backend → clears cookie
+      // optional (since you used it)
+      // update UI
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <nav className="backdrop-blur-lg bg-slate-900 shadow-lg fixed top-0 left-0 w-full z-50 text-white">
@@ -57,44 +50,17 @@ const Navbar = () => {
           to="/"
           className="text-2xl font-extrabold text-blue-700 hover:text-blue-900 transition"
         >
-           Book shop 
+          Book shop
         </Link>
-         <Link
+        <Link
           to="/"
           className="text-2xl font-extrabold text-black-700 hover:text-blue-900 transition"
         >
-          Home 
+          Home
+         
         </Link>
+ <SearchProductBar />
 
-        
-        <form
-          onSubmit={handleSearchSubmit}
-          className="hidden md:block w-1/3 relative"
-        >
-          <input
-            type="text"
-            placeholder="Search books..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 pl-10 rounded-full border border-gray-300 
-                       focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          {/* search icon */}
-          <svg
-            className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </form>
 
         {/* Menu Right */}
         <div className="flex items-center space-x-6">
@@ -115,32 +81,32 @@ const Navbar = () => {
             </>
           ) : (
             <>
-  <Link
-    to="/cart"
-    className="px-4 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-700"
-  >
-    🛒 Cart
-  </Link>
+              <Link
+                to="/cart"
+                className="px-4 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-700"
+              >
+                🛒 Cart
+              </Link>
 
-  <Link to="/profile">
-    <img
-      src={avatar}
-      className="h-9 w-9 rounded-full border-2 border-blue-600"
-      alt="Profile"
-    />
-  </Link>
+              <Link to="/profile">
+                <img
+                  src={avatar}
+                  className="h-9 w-9 rounded-full border-2 border-blue-600"
+                  alt="Profile"
+                />
+              </Link>
 
-  {/* 🔥 Logout Button */}
-  <button
-    onClick={handleLogout}
-    className="px-4 py-1 rounded-full bg-red-600 hover:bg-red-700"
-  >
-    Logout
-  </button>
-</>
+              {/* 🔥 Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="px-4 py-1 rounded-full bg-red-600 hover:bg-red-700"
+              >
+                Logout
+              </button>
+            </>
           )}
-         </div>
-       {/* { <div className="flex ">
+        </div>
+        {/* {  <div className="flex ">
           <Link to="/register"
           className="flex m-2">
             Register
@@ -149,7 +115,7 @@ const Navbar = () => {
           className="flex m-2">
             Login
           </Link>
-        </div> */} 
+          </div> } */}
       </div>
     </nav>
   );

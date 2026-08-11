@@ -7,7 +7,7 @@ const About = () => {
         
         {/* Header */}
         <h1 className="text-4xl md:text-5xl font-bold text-center text-blue-700 mb-6">
-          About <span className="text-gray-900">Ankur Book Store</span>
+          About <span className="text-gray-900"> Book Store</span>
         </h1>
 
         {/* Hero Image / Banner */}
