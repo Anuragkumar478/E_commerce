@@ -1,8 +1,8 @@
 const nodemailer = require("nodemailer");
 
 const sendAdminEmail = async (order) => {
-//   console.log("ADMIN_EMAIL:", process.env.ADMIN_EMAIL);
-// console.log("ADMIN_PASS:", process.env.ADMIN_PASS ? "LOADED" : "MISSING");
+//    console.log("ADMIN_EMAIL:", process.env.ADMIN_EMAIL);
+//  console.log("ADMIN_PASS:", process.env.ADMIN_PASS ? "LOADED" : "MISSING");
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -11,6 +11,16 @@ const sendAdminEmail = async (order) => {
       pass: process.env.ADMIN_PASS,
     },
   });
+
+  // transporter.verify()
+  // .then(() => {
+  //   console.log("✅ Gmail authentication successful");
+  // })
+  // .catch((error) => {
+  //   console.log("❌ Gmail authentication failed");
+  //   console.log(error.message);
+  // });
+
 
   const mailOptions = {
     from: process.env.ADMIN_EMAIL,

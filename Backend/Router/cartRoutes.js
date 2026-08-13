@@ -71,4 +71,20 @@ router.put("/update", protect , async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+router.delete("/delete/:_id", protect ,async (req,res)=>{
+   try{
+      const cart = await Cart.findOne({user:req.user._id || req.user.id});
+      if(!cart){
+        return res.status(404).json({message:"Cart not found"});
+      }
+       cart.items=cart.items.filter(item=>item._id.toString()!==req.params._id);
+       await cart.save();
+       res.status(200).json(cart);
+   }catch(error){
+res.status(500).json({error:error.message});  
+   }  
+});
+
+
 module.exports=router;

@@ -59,6 +59,13 @@ exports.placeOrder = async (req, res) => {
    .populate("items.product")
    .populate("user");
 await sendEmail(fullOrder);
+try{
+       await sendEmail(fullOrder);
+       console.log("Admin email sent successfully for order:");
+}
+catch(emailError){{
+    console.error("Failed to send admin email:", emailError.message);
+}}
 
     res
       .status(200)
@@ -81,4 +88,8 @@ exports.getUserOrder = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Unable to fetch order" });
   }
+
+ 
 };
+
+

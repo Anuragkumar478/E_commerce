@@ -72,6 +72,12 @@ export const updateCart = async (productId, quantity) => {
   return data;
 };
 
+export const removeFromCart = async (productId) => {
+  const { data } = await api.delete(`/cart/delete/${productId}`);
+  return data;
+};
+
+
 // ✅ New: Place Order
 export const placeOrder = async ({ shippingAddress }) => {
   if (!shippingAddress) throw new Error("Shipping address is required");

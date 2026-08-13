@@ -1,0 +1,17 @@
+const handleDelete = async (id) => {
+  try {
+    await deleteCartItem(id);
+
+    // Remove deleted item from frontend immediately
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item._id !== id)
+    );
+
+  } catch (error) {
+    console.error("Failed to delete cart item:", error);
+  }
+};
+
+<button onClick={() => handleDelete(item._id)}>
+  Delete
+</button>
