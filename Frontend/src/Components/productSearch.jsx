@@ -15,13 +15,16 @@ function SearchProductBar() {
 
 
 return(
-  <form onSubmit={handleSerch}>
-    <input type="text"
+  <form onSubmit={handleSerch} className="flex items-center space-x-2 " >
+    <input 
+    className=" border-amber-500 border-2 rounded-2xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    type="text"
       placeholder="Search products..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
 />
-<button type="submit">Search</button>
+<button className="bg-black text-white px-4 py-2 rounded-full hover:bg-blue-700 transition "
+ type="submit">Search</button>
 </form>
 )
     

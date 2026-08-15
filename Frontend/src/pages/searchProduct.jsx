@@ -1,8 +1,9 @@
 import React from 'react'
 import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
-import { searchProducts } from "../utils/api";
-
+import { searchProducts,addToCart } from "../utils/api";
+import productCard from "../Components/ProductCard";
+import ProductCard from '../Components/ProductCard';
 
 
 
@@ -29,6 +30,15 @@ useEffect(()=>{
     fetchProducts();
 }, [query]);
 
+const handleAddToCart = async (product) => {
+    try {
+      await addToCart(product._id, 1);
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
+  };
+
+
 if (loading) {
     return <p>Loading...</p>;
 }  
@@ -44,32 +54,38 @@ if (loading) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         {products.map((product) => (
-          <div
+          <ProductCard
             key={product._id}
-            className="border p-4 rounded shadow"
-          >
+            product={product}
+            onAddToCart={handleAddToCart}
+          />
+            
+          // <div
+          //   key={product._id}
+          //   className="border p-4 rounded shadow"
+          // >
 
-            {product.image && (
-              <img
-                src={product.image}
-                alt={product.name}
-                className="h-40 w-full object-cover rounded mb-3"
-              />
-            )}
+          //   {product.image && (
+          //     <img
+          //       src={product.image}
+          //       alt={product.name}
+          //       className="h-40 w-full object-cover rounded mb-3"
+          //     />
+          //   )}
 
-            <h2 className="font-bold">
-              {product.name}
-            </h2>
+          //   <h2 className="font-bold">
+          //     {product.name}
+          //   </h2>
 
-            <p>
-              {product.description}
-            </p>
+          //   <p>
+          //     {product.description}
+          //   </p>
 
-            <p className="font-semibold">
-              ₹{product.price}
-            </p>
+          //   <p className="font-semibold">
+          //     ₹{product.price}
+          //   </p>
 
-          </div>
+          // </div>
         ))}
 
       </div>
