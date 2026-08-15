@@ -27,7 +27,7 @@ const app = express();
 
 const server = http.createServer(app); // Create HTTP server first
 
-// Initialize Socket.io
+
 const io = initSocket(server);
 app.set('io', io);
 
