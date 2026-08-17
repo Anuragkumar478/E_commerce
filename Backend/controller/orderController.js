@@ -43,7 +43,7 @@ exports.placeOrder = async (req, res) => {
 //  console.log("New order created:", newOrder);  
     // Empty cart
     cart.items = [];
-    await cart.save();
+    await Cart.findByIdAndUpdate(cart._id, { $set: { items: [] } });
 
     // 🔔 Send real-time notification to admin dashboard
     const io = getIO();
@@ -60,7 +60,7 @@ exports.placeOrder = async (req, res) => {
    .populate("user");
 await sendEmail(fullOrder);
 try{
-       await sendEmail(fullOrder);
+       
        console.log("Admin email sent successfully for order:");
 }
 catch(emailError){{
