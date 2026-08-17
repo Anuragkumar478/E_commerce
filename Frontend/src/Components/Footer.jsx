@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-slate-900 text-white py-1 mt-0">
+    <footer className="bg-white text-black py-1 mt-0">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
 
         {/* Brand */}
@@ -12,6 +12,7 @@ const Footer = () => {
           <h2 className="text-2xl font-bold mb-3"> book shop</h2>
           <p className="text-sm opacity-80">
             Your trusted e-commerce platform for quality and affordable products.
+            “And when the last page is turned, may there always be another story waiting.”
           </p>
         </div>
 

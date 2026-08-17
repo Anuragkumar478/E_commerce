@@ -5,12 +5,29 @@ const Product = require("../Model/Product");
 
 router.post("/add-product", upload.single("image"), async (req, res) => {
   try {
- 
+
+    const{
+      name,
+      description,
+      price,
+      countInStock,
+      category
+    }=req.body;
+
+    if(!name || !price){
+      return res.status(400).json({ message: "Name and price are required" });
+    }
+
     const product = new Product({
-      name: req.body.name,
-      price: req.body.price,
-      image: req.file.path   
+      name: name,
+      description: description,
+      price: Number(price),
+      image: req.file ? req.file.path : "",
+      countInStock: Number(countInStock) || 0,
+      category: category
+ 
     });
+
 console.log(product);
     await product.save();
 

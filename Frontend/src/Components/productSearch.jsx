@@ -17,7 +17,7 @@ function SearchProductBar() {
 return(
   <form onSubmit={handleSerch} className="flex items-center space-x-2 " >
     <input 
-    className=" border-amber-500 border-2 rounded-2xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    className=" border-gray-500 border-2 rounded-2xl px-3 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:border-green-900"
     type="text"
       placeholder="Search products..."
       value={query}

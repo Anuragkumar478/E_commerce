@@ -84,11 +84,12 @@ const Cart = () => {
   if (loading) return <p className="p-8">Loading cart...</p>;
 
   return (
-    <div className="p-8">
+    <div className="min-h-screen flex flex-col">
       <h3 className="text-2xl font-bold mb-6">Your Cart</h3>
 
       {cart.length === 0 ? (
-        <p>No items in cart</p>
+        <h1> <p>No items in cart</p></h1>
+       
       ) : (
         <>
           <ul className="space-y-4">

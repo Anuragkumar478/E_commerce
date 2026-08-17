@@ -3,8 +3,8 @@ import axios from "axios";
 
 // Axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
-  // baseURL: "http://localhost:3000/api",
+  //baseURL: import.meta.env.VITE_BASE_URL + "/api", // ✅ use env variable
+  baseURL: "http://localhost:3000/api",
      withCredentials: true // ✅ fallback to localhost
  
 });
@@ -55,6 +55,11 @@ export const getCategories=async() =>{
   const res=await api.get("/products/category");
   return res.data;
 }
+
+export const getProductById = async (id) => {
+  const response = await api.get(`/products/${id}`);
+  return response.data;
+};
 
 // Cart APIs
 export const addToCart = async (productId, quantity = 1) => {

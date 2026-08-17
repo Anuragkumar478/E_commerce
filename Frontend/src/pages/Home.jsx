@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getProducts, addToCart, getCategories } from "../utils/api";
 import ProductCard from "../Components/ProductCard";
+import Slideshow from "../Components/Slideshow";  
+import FooterPromoSlider from "../Components/FooterPromoSlider";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -56,9 +58,10 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white min-h-screen pt-20 px-4 sm:px-6 lg:px-8">
+      <Slideshow />
       {/* Category Buttons */}
-      <div className="mb-6 flex flex-wrap gap-2">
+      <div className="mb-6 flex flex-wrap gap-2 ">
         <button
           className={`px-4 py-2 rounded-full ${
             selectedCategory === "All"
@@ -105,8 +108,10 @@ const Home = () => {
               onAddToCart={handleAddToCart}
             />
           ))}
+         
         </div>
       )}
+       <FooterPromoSlider />
     </div>
   );
 };

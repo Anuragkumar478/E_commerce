@@ -15,6 +15,7 @@ import UserOrders from "./Components/UserOrders";
 import Cart from "./pages/Cart";
 import Footer from "./Components/Footer";
 import SearchProduct from "./pages/searchProduct";
+import ProductDetails from "./pages/ProductDetails";
 import { UserProvider } from "./Components/UserContext";
 
 function App() {
@@ -41,6 +42,9 @@ function App() {
           <Route path="/my-orders" element={<UserOrders />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<SearchProduct />} />
+          <Route
+  path="/products/:id"
+  element={<ProductDetails />} />
         </Routes>
 
         <Footer />
