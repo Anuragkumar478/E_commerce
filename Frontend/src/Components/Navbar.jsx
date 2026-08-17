@@ -64,7 +64,9 @@ const Navbar = () => {
 
         {/* Desktop menu */}
         <div className="hidden md:flex items-center space-x-4 lg:space-x-6 shrink-0">
+          
           {!user ? (
+          
             <>
               <Link
                 to="/register"
@@ -128,6 +130,7 @@ const Navbar = () => {
       {/* Mobile dropdown panel */}
       {menuOpen && (
         <div className="md:hidden bg-[#FAF7F1] border-t border-black/10 px-4 py-4 space-y-4">
+          
           <SearchProductBar />
 
           <Link
