@@ -5,12 +5,17 @@ const sendAdminEmail = async (order) => {
 //  console.log("ADMIN_PASS:", process.env.ADMIN_PASS ? "LOADED" : "MISSING");
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.ADMIN_EMAIL,
-      pass: process.env.ADMIN_PASS,
-    },
-  });
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.ADMIN_EMAIL,
+    pass: process.env.ADMIN_PASS,
+  },
+  family: 4,
+});
+
+
 
   // transporter.verify()
   // .then(() => {
