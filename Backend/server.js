@@ -34,8 +34,9 @@ app.set('io', io);
 // Middleware
 // app.use(cors());
 app.use(cors({
-  origin:[ "http://localhost:5173",
-   "https://e-commerce-h9ke.vercel.app"
+  origin: [
+    "http://localhost:5173",
+    "https://e-commerce-h9ke-git-main-anurag-kumars-projects-4fdb0a50.vercel.app"
   ],
   credentials: true
 }));
