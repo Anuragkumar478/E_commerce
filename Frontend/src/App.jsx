@@ -17,6 +17,8 @@ import Footer from "./Components/Footer";
 import SearchProduct from "./pages/searchProduct";
 import ProductDetails from "./pages/ProductDetails";
 import { UserProvider } from "./Components/UserContext";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -42,9 +44,22 @@ function App() {
           <Route path="/my-orders" element={<UserOrders />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<SearchProduct />} />
+
+          
           <Route
   path="/products/:id"
   element={<ProductDetails />} />
+
+  <Route
+  path="/forgot-password"
+  element={<ForgotPassword />}
+/>
+
+<Route
+  path="/reset-password/:token"
+  element={<ResetPassword />}
+/>
+
         </Routes>
 
         <Footer />

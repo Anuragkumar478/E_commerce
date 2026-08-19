@@ -6,7 +6,17 @@ const userSchema = mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false },
-    address: { type: String }
+    address: { type: String },
+     // Password reset fields
+    resetPasswordToken: {
+        type: String,
+        default: null
+    },
+
+    resetPasswordExpire: {
+        type: Date,
+        default: null
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);

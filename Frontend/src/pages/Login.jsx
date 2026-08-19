@@ -73,6 +73,14 @@ const {login}=useContext(AuthContext);
           onChange={handleChange}
           required
         />
+<div className="text-right mb-4">
+  <span
+    onClick={() => navigate("/forgot-password")}
+    className="text-green-600 text-sm font-medium cursor-pointer hover:underline"
+  >
+    Forgot Password?
+  </span>
+</div>
 
         <button
           disabled={loading}
@@ -89,8 +97,11 @@ const {login}=useContext(AuthContext);
           >
             Register
           </span>
+         
         </p>
+        
       </form>
+      
     </div>
   
   );
