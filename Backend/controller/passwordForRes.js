@@ -1,8 +1,11 @@
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 const bcrypt = require("bcryptjs");
 
 const User = require("../Model/User");
+
+// Initialize Resend client
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ======================================================
 // FORGOT PASSWORD
@@ -66,19 +69,6 @@ const forgetPassword = async (req, res) => {
     await user.save();
 
     // ==================================================
-    // CREATE NODEMAILER TRANSPORTER
-    // ==================================================
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-
-      auth: {
-        user: process.env.ADMIN_EMAIL,
-        pass: process.env.PASSWORD_APP_EMAIL,
-      },
-    });
-
-    // ==================================================
     // CREATE FRONTEND RESET URL
     // ==================================================
 
@@ -86,78 +76,84 @@ const forgetPassword = async (req, res) => {
       `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
     // ==================================================
-    // EMAIL
+    // EMAIL HTML
     // ==================================================
 
-    const mailOptions = {
-      from: `"E-Commerce Store" <${process.env.ADMIN_EMAIL}>`,
+    const emailHtml = `
+      <div style="
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+      ">
 
+        <h2>Reset Your Password</h2>
+
+        <p>
+          Hello ${user.name || "User"},
+        </p>
+
+        <p>
+          We received a request to reset your password.
+        </p>
+
+        <p>
+          Click the button below to create a new password:
+        </p>
+
+        <a
+          href="${resetUrl}"
+          style="
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+          "
+        >
+          Reset Password
+        </a>
+
+        <p style="margin-top: 20px;">
+          This link will expire in
+          <strong>10 minutes</strong>.
+        </p>
+
+        <p>
+          If you didn't request a password reset,
+          you can safely ignore this email.
+        </p>
+
+        <p>
+          Thanks,<br>
+          E-Commerce Team
+        </p>
+
+      </div>
+    `;
+
+    // ==================================================
+    // SEND EMAIL VIA RESEND
+    // ==================================================
+
+    const { data, error } = await resend.emails.send({
+      from: "Book Shop <onboarding@resend.dev>",
+      // process.env.RESEND_FROM_EMAIL,
       to: user.email,
-
       subject: "Reset Your Password",
+      html: emailHtml,
+    });
 
-      html: `
-        <div style="
-          font-family: Arial, sans-serif;
-          max-width: 600px;
-          margin: auto;
-          padding: 20px;
-        ">
+    if (error) {
+      console.error("Resend error:", error);
+      return res.status(500).json({
+        message:
+          "Something went wrong. Please try again later.",
+      });
+    }
 
-          <h2>Reset Your Password</h2>
-
-          <p>
-            Hello ${user.name || "User"},
-          </p>
-
-          <p>
-            We received a request to reset your password.
-          </p>
-
-          <p>
-            Click the button below to create a new password:
-          </p>
-
-          <a
-            href="${resetUrl}"
-            style="
-              display: inline-block;
-              padding: 12px 20px;
-              background-color: #2563eb;
-              color: white;
-              text-decoration: none;
-              border-radius: 5px;
-            "
-          >
-            Reset Password
-          </a>
-
-          <p style="margin-top: 20px;">
-            This link will expire in
-            <strong>10 minutes</strong>.
-          </p>
-
-          <p>
-            If you didn't request a password reset,
-            you can safely ignore this email.
-          </p>
-
-          <p>
-            Thanks,<br>
-            E-Commerce Team
-          </p>
-
-        </div>
-      `,
-    };
-
-    // ==================================================
-    // SEND EMAIL
-    // ==================================================
-
-    await transporter.sendMail(mailOptions);
-
-    console.log("Password reset email sent");
+    // console.log("Password reset email sent:", data?.id);
 
     // Don't log resetUrl/token in production
 
