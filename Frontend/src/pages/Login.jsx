@@ -1,6 +1,6 @@
 import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../components/UserContext"; // adjust path to your actual location
+import { useUser } from "../Components/UserContext"; // adjust path to your actual location
 
 
 
