@@ -1,8 +1,9 @@
 import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../components/UserContext"; // adjust path to your actual location
 
 
-import { AuthContext } from "../Contexfolder/authcontex";
+
   // ✔ Correct way to access login function from AuthContext
 
 export default function Login() {
@@ -10,7 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-const {login}=useContext(AuthContext);
+const { login } = useUser();
    // ✔ Correct way
 
   const handleChange = (e) => {

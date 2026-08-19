@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getProfile, logout as apiLogout } from "../utils/api";
+import { getProfile, logout as apiLogout,login as apiLogin } from "../utils/api";
 
 const UserContext = createContext();
 
@@ -23,6 +23,20 @@ export const UserProvider = ({ children }) => {
     fetchUser();
   }, []);
 
+
+   const login = async (formData) => {
+    try {
+      const data = await apiLogin(formData); // your utils/api login call
+      setUser(data); // 🔑 this line is what actually updates the Navbar
+      return { success: true };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.response?.data?.message || "Login failed",
+      };
+    }
+  };
+
   // ✅ Logout
   const logout = async () => {
     await apiLogout(); // clears cookie
@@ -30,7 +44,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, logout, loading }}>
+    <UserContext.Provider value={{ user, setUser,login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );
