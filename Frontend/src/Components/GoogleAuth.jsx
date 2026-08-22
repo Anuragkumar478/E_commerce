@@ -40,7 +40,7 @@ const GoogleAuth = () => {
           setUser(response.data.user);
 
       // Go to profile after login
-      navigate("/profile");
+      navigate("/");
 
      
 
