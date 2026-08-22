@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, onAddToCart }) => {
   const isOutOfStock = product.countInStock === 0;
+
   const isLowStock =
     product.countInStock > 0 && product.countInStock <= 5;
 
   return (
-    <div className="group w-full bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-[#E7DFD1] hover:shadow-xl transition-all duration-300 flex flex-col">
+    <div className="group w-full bg-white rounded-lg sm:rounded-2xl overflow-hidden border border-[#E7DFD1] hover:shadow-xl transition-all duration-300 flex flex-col">
 
       {/* ================= IMAGE ================= */}
       <Link to={`/products/${product._id}`}>
-        <div className="relative w-full bg-[#F8F5EE] overflow-hidden aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3]">
+        <div className="relative w-full bg-[#F8F5EE] overflow-hidden aspect-square sm:aspect-[4/5] lg:aspect-[4/5]">
 
           {product.image ? (
             <img
@@ -21,15 +22,15 @@ const ProductCard = ({ product, onAddToCart }) => {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full min-h-[180px] flex items-center justify-center text-gray-400 text-sm">
+            <div className="w-full h-full min-h-[140px] sm:min-h-[180px] flex items-center justify-center text-gray-400 text-xs sm:text-sm">
               No Image
             </div>
           )}
 
           {/* Stock Badge */}
-          <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
+          <div className="absolute top-1.5 left-1.5 sm:top-4 sm:left-4">
             <span
-              className={`px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold border ${
+              className={`px-1.5 py-0.5 sm:px-3 sm:py-1.5 rounded-full text-[8px] sm:text-xs font-semibold border ${
                 isOutOfStock
                   ? "bg-red-50 text-red-700 border-red-200"
                   : isLowStock
@@ -55,52 +56,24 @@ const ProductCard = ({ product, onAddToCart }) => {
       </Link>
 
       {/* ================= CONTENT ================= */}
-      <div className="p-3 sm:p-4 lg:p-5 flex flex-col flex-1">
-
-        {/* Category */}
-        {product.category && (
-          <p className="text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#B8863B] font-semibold mb-1.5 sm:mb-2 truncate">
-            {product.category}
-          </p>
-        )}
+      <div className="p-2 sm:p-4 lg:p-5 flex flex-col flex-1">
 
         {/* Product Name */}
         <Link to={`/products/${product._id}`}>
-          <h3 className="text-sm sm:text-base lg:text-lg font-bold text-[#1E2A38] line-clamp-2 min-h-[40px] sm:min-h-[48px] lg:min-h-[56px] group-hover:text-[#B8863B] transition-colors">
+          <h3 className="text-xs sm:text-base lg:text-lg font-bold text-[#1E2A38] line-clamp-2 min-h-[32px] sm:min-h-[48px] lg:min-h-[56px] group-hover:text-[#B8863B] transition-colors">
             {product.name}
           </h3>
         </Link>
 
-        {/* Description */}
-        {product.description && (
-          <p className="text-xs sm:text-sm text-gray-500 line-clamp-2 mt-1.5 sm:mt-2 min-h-[32px] sm:min-h-[40px]">
-            {product.description}
-          </p>
-        )}
-
-        {/* Rating */}
-        {product.rating && (
-          <div className="flex items-center gap-1.5 sm:gap-2 mt-2 sm:mt-3">
-            <div className="text-[#D39B3D] text-xs sm:text-sm whitespace-nowrap">
-              {"★".repeat(Math.floor(product.rating))}
-              {"☆".repeat(5 - Math.floor(product.rating))}
-            </div>
-
-            <span className="text-[10px] sm:text-xs text-gray-500">
-              {product.rating}
-            </span>
-          </div>
-        )}
-
         {/* Price */}
-        <div className="flex items-center justify-between mt-3 sm:mt-4 mb-3 sm:mb-4">
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-            <span className="text-lg sm:text-xl lg:text-2xl font-bold text-[#1E2A38]">
+        <div className="flex items-center justify-between mt-2 sm:mt-4 mb-2 sm:mb-4">
+          <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+            <span className="text-base sm:text-xl lg:text-2xl font-bold text-[#1E2A38]">
               ₹{product.price}
             </span>
 
             {product.originalPrice && (
-              <span className="text-xs sm:text-sm text-gray-400 line-through">
+              <span className="text-[10px] sm:text-sm text-gray-400 line-through">
                 ₹{product.originalPrice}
               </span>
             )}
@@ -112,7 +85,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           type="button"
           disabled={isOutOfStock}
           onClick={() => onAddToCart(product)}
-          className={`w-full py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold flex items-center justify-center gap-1.5 sm:gap-2 transition-all duration-300 mt-auto ${
+          className={`w-full py-2 sm:py-3 rounded-md sm:rounded-xl text-xs sm:text-base font-semibold flex items-center justify-center gap-1 sm:gap-2 transition-all duration-300 mt-auto ${
             isOutOfStock
               ? "bg-gray-200 text-gray-500 cursor-not-allowed"
               : "bg-[#1E2A38] text-white hover:bg-[#B8863B] sm:hover:-translate-y-0.5 shadow-sm hover:shadow-md"
@@ -123,7 +96,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           ) : (
             <>
               <svg
-                className="w-4 h-4 sm:w-5 sm:h-5"
+                className="w-3.5 h-3.5 sm:w-5 sm:h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

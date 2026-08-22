@@ -2,9 +2,22 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     name: { type: String, required: true },
-    phone:{type:String ,required:true},
+    phone:{type:String },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String},
+     authSource: {
+    type: String,
+    enum: ["local", "google"],
+    default: "local"
+  },
+
+  googleId: {
+    type: String
+  },  
+    profilePicture: {
+    type: String
+  },
+
     isAdmin: { type: Boolean, default: false },
     address: { type: String },
      // Password reset fields

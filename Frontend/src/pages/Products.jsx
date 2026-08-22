@@ -28,10 +28,18 @@ export default function Products() {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
       await api.delete(`/products/${id}`);
-      setProducts(products.filter((p) => p._id !== id));
+     setProducts((prevProducts) =>
+  prevProducts.filter((product) => product._id !== id)
+);
     } catch (err) {
-      alert("Delete failed");
-    }
+  console.log("DELETE STATUS:", err.response?.status);
+  console.log("DELETE RESPONSE:", err.response?.data);
+
+  alert(
+    err.response?.data?.message ||
+    "Delete failed"
+  );
+}
   };
 
   if (loading) return <div className="text-center mt-10">Loading...</div>;

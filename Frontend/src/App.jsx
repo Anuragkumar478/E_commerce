@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import ScrollToTop from "./Components/ScrollToTop";
 import Navbar from "./Components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -19,13 +21,16 @@ import ProductDetails from "./pages/ProductDetails";
 import { UserProvider } from "./Components/UserContext";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import BottomNavbar from "./Components/BottomNavbar";
 
 function App() {
   return (
     <UserProvider>
+         
       <Router>
         <Navbar />
-        
+        <Toaster position="top-center" />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -61,7 +66,7 @@ function App() {
 />
 
         </Routes>
-
+       <BottomNavbar/>
         <Footer />
       </Router>
     </UserProvider>

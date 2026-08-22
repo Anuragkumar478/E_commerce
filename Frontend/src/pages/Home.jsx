@@ -1,119 +1,270 @@
 import React, { useEffect, useState } from "react";
-import { getProducts, addToCart, getCategories } from "../utils/api";
+import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
+import { getProducts, addToCart } from "../utils/api";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../Components/UserContext";
+import CategorySection from "../Components/CategorySection";
 import ProductCard from "../Components/ProductCard";
-import Slideshow from "../Components/Slideshow";  
+import Slideshow from "../Components/Slideshow";
 import FooterPromoSlider from "../Components/FooterPromoSlider";
 
+
+
 const Home = () => {
+
+  const { user } = useUser();
+const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [products, setProducts] = useState([]);
-  const [filterProduct, setFilterProduct] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Get category from URL
+  const selectedCategory =
+    searchParams.get("category") || "All";
+
+
+  // =========================
+  // GET PRODUCTS
+  // =========================
 
   useEffect(() => {
+
     const fetchProducts = async () => {
+
       try {
+
         const data = await getProducts();
 
         setProducts(data);
-        setFilterProduct(data);
 
-        const cat = await getCategories();
-        setCategories(cat);
       } catch (err) {
+
         console.error(err);
+
         setError("Failed to load products");
+
       } finally {
+
         setLoading(false);
+
       }
+
     };
 
     fetchProducts();
+
   }, []);
 
-  const handleCategoryClick = (cat) => {
-    setSelectedCategory(cat);
 
-    if (cat === "All") {
-      setFilterProduct(products);
+  // =========================
+  // CATEGORY CLICK
+  // =========================
+
+  const handleCategoryClick = (category) => {
+
+    if (category === "All") {
+
+      setSearchParams({});
+
+    } else {
+
+      setSearchParams({
+        category: category,
+      });
+
+    }
+
+  };
+
+
+  // =========================
+  // FILTER PRODUCTS
+  // =========================
+
+  const filterProduct =
+    selectedCategory === "All"
+      ? products
+      : products.filter(
+          (product) =>
+            product.category === selectedCategory
+        );
+
+
+  // =========================
+  // ADD TO CART
+  // =========================
+
+  const handleAddToCart = async (product) => {
+  if (!user) {
+    toast.error("Please login first to add books to your cart");
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 500);
+
+    return;
+  }
+
+  try {
+    await addToCart(product._id, 1);
+
+    toast.success("Book added to cart!");
+  } catch (error) {
+    console.error(error);
+
+    if (error.response?.status === 401) {
+      toast.error("Your session has expired. Please login again.");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+
       return;
     }
 
-    const filtered = products.filter(
-      (p) => p.category === cat
+    toast.error(
+      error.response?.data?.message ||
+      "Failed to add book to cart"
     );
+  }
+};
 
-    setFilterProduct(filtered);
-  };
-
-  const handleAddToCart = async (product) => {
-    try {
-      await addToCart(product._id, 1);
-      alert(`${product.name} added to cart`);
-    } catch (err) {
-      alert("Failed to add to cart");
-    }
-  };
 
   return (
-    <div className="bg-white min-h-screen pt-20 px-4 sm:px-6 lg:px-8">
-      <Slideshow />
-      {/* Category Buttons */}
-      <div className="mb-6 flex flex-wrap gap-2 ">
-        <button
-          className={`px-4 py-2 rounded-full ${
-            selectedCategory === "All"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
-          onClick={() => handleCategoryClick("All")}
-        >
-          All
-        </button>
 
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`px-4 py-2 rounded-full ${
-              selectedCategory === category
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700"
-            }`}
-            onClick={() => handleCategoryClick(category)}
-          >
-            {category}
-          </button>
-        ))}
+    <div className="bg-gray-100 min-h-screen pt-16">
+
+      {/* ================= CATEGORIES ================= */}
+
+      <CategorySection
+        selectedCategory={selectedCategory}
+        onCategoryClick={handleCategoryClick}
+      />
+
+
+      {/* ================= HERO ================= */}
+{/* /*
+      <div className="mt-2">
+        <Slideshow />
       </div>
+ */}
 
-      {/* Products Section */}
-      <h3 className="text-2xl font-bold mb-6">
-        Books ({filterProduct.length})
-      </h3>
+      {/* ================= PRODUCTS ================= */}
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p className="text-red-600">{error}</p>
-      ) : filterProduct.length === 0 ? (
-        <p className="text-gray-500">No books found.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filterProduct.map((product) => (
-            <ProductCard
-              key={product._id}
-              product={product}
-              onAddToCart={handleAddToCart}
-            />
-          ))}
-         
+      <section className="
+        max-w-7xl
+        mx-auto
+        px-3
+        sm:px-6
+        lg:px-8
+        xl:px-10
+        py-6
+        lg:py-10
+      ">
+
+        <div className="
+          flex
+          items-center
+          justify-between
+          mb-5
+          lg:mb-8
+        ">
+
+          <h3 className="
+            text-xl
+            sm:text-2xl
+            lg:text-3xl
+            font-bold
+            text-gray-800
+          ">
+
+            {selectedCategory === "All"
+              ? "All Products"
+              : selectedCategory}
+
+          </h3>
+
+
+          <span className="
+            text-xs
+            sm:text-sm
+            text-gray-500
+          ">
+
+            {filterProduct.length} items
+
+          </span>
+
         </div>
-      )}
-       <FooterPromoSlider />
+
+
+        {loading ? (
+
+          <p>Loading...</p>
+
+        ) : error ? (
+
+          <p className="text-red-600">
+            {error}
+          </p>
+
+        ) : filterProduct.length === 0 ? (
+
+          <div className="
+            bg-white
+            rounded-xl
+            p-8
+            text-center
+          ">
+
+            <p className="text-gray-500">
+              No products found in this category.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="
+            grid
+            grid-cols-2
+            sm:grid-cols-3
+            md:grid-cols-3
+            lg:grid-cols-4
+            xl:grid-cols-5
+            2xl:grid-cols-6
+            gap-3
+            sm:gap-5
+            lg:gap-6
+            xl:gap-7
+          ">
+
+            {filterProduct.map((product) => (
+
+              <ProductCard
+                key={product._id}
+                product={product}
+                onAddToCart={handleAddToCart}
+              />
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+
+      <FooterPromoSlider />
+
     </div>
+
   );
+
 };
 
 export default Home;

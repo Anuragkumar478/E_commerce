@@ -1,12 +1,21 @@
 import { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Components/UserContext"; // adjust path to your actual location
+import GoogleAuth from "../Components/GoogleAuth"; 
 
 
 
   // ✔ Correct way to access login function from AuthContext
+  console.log("CURRENT ORIGIN:", window.location.origin);
+  console.log(
+    "GOOGLE CLIENT ID:",
+    import.meta.env.VITE_GOOGLE_CLIENT_ID
+  );
+
 
 export default function Login() {
+
+  
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -81,6 +90,7 @@ const { login } = useUser();
   >
     Forgot Password?
   </span>
+  <GoogleAuth />
 </div>
 
         <button

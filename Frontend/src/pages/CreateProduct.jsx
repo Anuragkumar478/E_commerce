@@ -2,6 +2,18 @@ import { useState } from "react";
 import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
+const categories = [
+  { name: "Books", icon: "📚" },
+  { name: "Stationery", icon: "✏️" },
+  { name: "Notebooks", icon: "📓" },
+  { name: "Pens & Pencils", icon: "🖊️" },
+  { name: "Art & Craft", icon: "🎨" },
+  { name: "School Supplies", icon: "🎒" },
+  { name: "Exam Preparation", icon: "📖" },
+  { name: "Calculators", icon: "🧮" },
+  { name: "Gifts", icon: "🎁" },
+];
+
 export default function CreateProduct() {
   const [form, setForm] = useState({ name: "", description: "", price: "", countInStock: "", category: "" });
   const [file, setFile] = useState(null);
@@ -36,7 +48,21 @@ export default function CreateProduct() {
         <textarea name="description" placeholder="Description" onChange={handleChange} className="border p-2 mb-2 w-full" />
         <input type="number" name="price" placeholder="Price" onChange={handleChange} className="border p-2 mb-2 w-full" required />
         <input type="number" name="countInStock" placeholder="Stock" onChange={handleChange} className="border p-2 mb-2 w-full" />
-        <input name="category" placeholder="Category" onChange={handleChange} className="border p-2 mb-2 w-full" />
+       <select
+  name="category"
+  value={form.category}
+  onChange={handleChange}
+  className="border p-2 mb-2 w-full rounded"
+  required
+>
+  <option value="">Select Category</option>
+
+  {categories.map((category) => (
+    <option key={category.name} value={category.name}>
+      {category.icon} {category.name}
+    </option>
+  ))}
+</select>
         <input type="file" onChange={handleFileChange} className="mb-4" />
         <button disabled={loading} className="bg-green-500 text-white p-2 w-full rounded">
           {loading ? "Creating..." : "Create Product"}
